@@ -7,6 +7,12 @@
     </head>
 <body>
 
+    <header>
+        <h1>Espace vote</h1>
+        <a href="/deconnexion">Se déconnecter</a>
+    </header>
+
+<div class="all">
     <% for(var i=0; i<liste.length; i++) {%>
         <div class="ligne">
             <p class="name"><%= liste[i] %></p>
@@ -24,11 +30,11 @@
                 <input type="radio" name="vote" value="5" id="5" />
                 <label for="5">5</label>
 
-                <input type="submit" value="Submit" />
+                <input type="submit" value="Noter ce professeur" class="valider"/>
             </form>
         </div>
     <% } %>
-    
+</div>    
 
 </body>
 </html>

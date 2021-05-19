@@ -59,10 +59,11 @@ app.get('/', (req, res) => {
 });
 
 app.get('/connexion', async (req, res) => {
-  if(req.session.compte){
-    const notes = await getNotes(req.session.compte.data.identifiant, req.session.mdp);
+  if(req.session.username){
+    const notes = await getNotes(req.session.username, req.session.mdp);
+    const compte = await ecole.connexion(req.session.username, req.session.mdp);
     var last = notes.notes.length - 1;
-    res.render('index', {username:req.session.compte.data.identifiant, mdp:req.session.mdp, lastNote:notes.notes[last]});
+    res.render('index', {username:req.session.username, mdp:req.session.mdp, lastNote:notes.notes[last], compte:compte});
   }
   else{
     res.render('connect', {error: ''});
@@ -70,7 +71,7 @@ app.get('/connexion', async (req, res) => {
 })
 
 app.all('/index', async (req, res) => {
-  if(req.session.compte){
+  if(req.session.username){
     const notes = await getNotes(req.session.compte.data.identifiant, req.session.mdp);
     var last = notes.notes.length - 1;
     res.render('index', {username:req.session.compte.data.identifiant, mdp:req.session.mdp, lastNote:notes.notes[last]});
@@ -158,7 +159,6 @@ app.all('/valider', (req, res) => {
         arrondi = nombre*100;
         arrondi = Math.round(arrondi);
         arrondi = arrondi/100;
-        console.log(arrondi);
         let update = `UPDATE vote SET note = '${arrondi}' WHERE prof = '${prof}'`;
         let query_update = db.query(update, (err, result) => {
           if(err) throw err;

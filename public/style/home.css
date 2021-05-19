@@ -141,12 +141,7 @@ header .deco:hover{
     overflow: hidden;
 }
 
-.img{
-    width: 96px;
-    height: 130px;
-    margin: -8px 0 0 -8px;
-    border-radius: 25px;
-}
+
 
 .mainInfos{
     margin-left: 20px;
