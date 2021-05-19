@@ -129,7 +129,13 @@ app.all('/index', async (req, res) => {
             final.push(result[i]);
           }
         }
-        res.render('index', {username:req.session.username, mdp:req.session.mdp, lastNote:notes.notes[last], compte:compte, votes:final});
+        var long = final.length;
+        if(long == 0){
+          res.render('index', {username:req.session.username, mdp:req.session.mdp, lastNote:notes.notes[last], compte:compte, votes:null});
+        }
+        else{
+          res.render('index', {username:req.session.username, mdp:req.session.mdp, lastNote:notes.notes[last], compte:compte, votes:final});
+        }
       });
     }
     catch(err) {
