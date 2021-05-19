@@ -13,27 +13,38 @@
     </header>
 
 <div class="all">
-    <% for(var i=0; i<liste.length; i++) {%>
-        <div class="ligne">
-            <p class="name"><%= liste[i] %></p>
-            <form method="post" action="/valider">
-                <input type="hidden" value="<%= liste[i] %>" name="prof" />
+    <%
+        for(var i=0; i<liste.length; i++) {
+            if(liste[i].valide == true){
+                %>
+                    <div class="ligne">
+                        <p class="name"><%= liste[i].nom_prof %></p>
+                        <form method="post" action="/valider">
+                            <input type="hidden" value="<%= liste[i] %>" name="prof" />
 
-                <input type="radio" name="vote" value="1" id="1" />
-                <label for="1">1</label>
-                <input type="radio" name="vote" value="2" id="2" />
-                <label for="2">2</label>
-                <input type="radio" name="vote" value="3" id="3"/>
-                <label for="3">3</label>
-                <input type="radio" name="vote" value="4" id="4" />
-                <label for="4">4</label>
-                <input type="radio" name="vote" value="5" id="5" />
-                <label for="5">5</label>
+                            <input type="radio" name="vote" value="1" id="1" />
+                            <label for="1">1</label>
+                            <input type="radio" name="vote" value="2" id="2" />
+                            <label for="2">2</label>
+                            <input type="radio" name="vote" value="3" id="3"/>
+                            <label for="3">3</label>
+                            <input type="radio" name="vote" value="4" id="4" />
+                            <label for="4">4</label>
+                            <input type="radio" name="vote" value="5" id="5" />
+                            <label for="5">5</label>
 
-                <input type="submit" value="Noter ce professeur" class="valider"/>
-            </form>
-        </div>
-    <% } %>
+                            <input type="submit" value="Noter ce professeur" class="valider"/>
+                        </form>
+                    </div>
+                <%
+            }
+            else{
+                %>
+                    <p class="nom_prof"><%= liste[i].nom_prof %></p>
+                <%
+            }
+        }
+    %>
 </div>    
 
 </body>

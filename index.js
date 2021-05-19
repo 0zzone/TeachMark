@@ -99,11 +99,17 @@ app.all('/index', async (req, res) => {
       if(err) throw err;
 
       for(var i=0;i<result.length;i++){
-        if(arr.indexOf(result[i].nom != -1)){
+        if(arr.indexOf(result[i].prof) != -1){
           final.push(result[i]);
         }
       }
-      res.render('index', {username:req.session.username, mdp:req.session.mdp, lastNote:notes.notes[last], compte:compte, votes:final});
+      var long = final.length;
+      if(long == 0){
+        res.render('index', {username:req.session.username, mdp:req.session.mdp, lastNote:notes.notes[last], compte:compte, votes:null});
+      }
+      else{
+        res.render('index', {username:req.session.username, mdp:req.session.mdp, lastNote:notes.notes[last], compte:compte, votes:final});
+      }
     });
   }
   else{
@@ -116,6 +122,7 @@ app.all('/index', async (req, res) => {
       const notes = await getNotes(username, mdp);
       var last = notes.notes.length - 1;
       req.session.bahut = compte.data.nomEtablissement;
+      req.session.identifiant = compte.data.idLogin;
 
       var arr = await getAllProf(req.session.username, req.session.mdp, req.session.bahut);
       var final = [];
@@ -125,7 +132,7 @@ app.all('/index', async (req, res) => {
         if(err) throw err;
 
         for(var i=0;i<result.length;i++){
-          if(arr.indexOf(result[i].nom != -1)){
+          if(arr.indexOf(result[i].prof) != -1){
             final.push(result[i]);
           }
         }
@@ -166,13 +173,35 @@ app.get('/vote', async (req, res) => {
   var username = req.session.username;
   var mdp = req.session.mdp;
   const notes = await getNotes(username, mdp);
-  notes.periodes[0].ensembleMatieres.disciplines.forEach(element =>
-    element.professeurs.forEach(el =>
-      tab.push(el.nom)
-    )
-  );
-  res.render('vote', {liste: tab})
+
+  for(var i=0; i<notes.periodes[0].ensembleMatieres.disciplines.length; i++){
+    for(var k=0; k<notes.periodes[0].ensembleMatieres.disciplines[i].professeurs.length; k++){
+      tab.push(
+        {
+          nom_prof: notes.periodes[0].ensembleMatieres.disciplines[i].professeurs[k].nom,
+          valide: true
+        }
+      );
+    }
+  }
+   
+  var arr = [];
+  let sql = `SELECT * FROM all_vote WHERE id_eleve = '${req.session.identifiant}'`;
+  let query = db.query(sql, (err, result) => {
+    if(err) throw err;
+
+    for(var m=0;m<result.length; m++){
+      for(var x=0; x<tab.length; x++){
+        if(tab[x].nom_prof == result[m].prof){
+          tab[x].valide = false;
+        }
+      }
+    }
+    res.render('vote', {liste: tab})
+  });
 });
+
+
 
 app.all('/valider', (req, res) => {
   var value = req.body.vote;
@@ -183,7 +212,7 @@ app.all('/valider', (req, res) => {
     console.log(result);
     if(err) throw err;
 
-    let data_insert = {prof: prof, note: value, bahut:req.session.bahut};
+    let data_insert = {prof: prof, note: value, bahut:req.session.bahut, id_eleve:req.session.identifiant};
     let insert = 'INSERT INTO all_vote SET ?';
     let query = db.query(insert, data_insert, (err, result) => {
       if(err) throw err;
