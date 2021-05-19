@@ -1,0 +1,78 @@
+@font-face {
+    font-family: nunito;
+    src: url('/font/nunito.ttf');
+}
+
+body{
+    margin: 0px;
+}
+
+/* Header ---------------------------- */
+
+.error{
+    background-color: #ffd4d1;
+    color: #ff7970;
+    width: 85%;
+    text-align: center;
+    padding: 5px;
+    font-family: nunito;
+}
+
+form{
+    display: block;
+    margin: auto;
+    background-color: #ededed;
+    border-top: 4px solid #333;
+    width: 300px;
+    padding-top: 20px;
+    padding-right: 5px;
+    padding-bottom: 50px;
+    padding-left: 50px;
+    margin-top: 100px;
+    border-radius: 0px 0px 10px 10px;
+}
+
+form h2{
+    font-family: nunito;
+}
+
+.input{
+    height: 30px;
+    width: 70%;
+    border: 1.5px solid grey;
+    outline: none;
+    border-radius: 24px;
+    transition: 0.4s;
+    padding: 15px;
+}
+.input:focus{
+    width: 80%;
+    height: 40px;
+    transition: 0.4s;
+    border: 1.5px solid #06c;
+    transition: 0.4s;
+}
+
+.submit{
+    transition: 0.4s;
+    background-color: #06c;
+    padding: 7px;
+    border-radius: 5px;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    color: white;
+}
+.submit:hover{
+    transition: 0.4s;
+    opacity: 0.9;
+}
+
+.return{
+    font-family: nunito;
+    text-decoration: none;
+    color: grey;
+}
+.return:hover{
+    text-decoration: underline #333;
+}

@@ -1,0 +1,75 @@
+<ODCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Page d'accueil</title>
+        <link rel="stylesheet" href="style/home.css" />
+    </head>
+<body>
+    <header>
+        <h1>API École Directe</h1>
+        <a href="/deconnexion" class="deco">Se déconnecter</a>
+    </header>
+
+
+<div class="all1">
+    <div class="profil">
+        <div class="first">
+            <div class="image">
+                <img src="<%= compte.data.profile.photo %>" class="img" />
+            </div>
+            <div class="mainInfos">
+                <div class="nom-prenom">
+                    <p><%= compte.data.nom %></p>
+                    <p><%= compte.data.prenom %></p>
+                </div>
+                <div class="infos2">
+                    <p class="label">Classe:</p>
+                    <p class="value"><%= compte.data.profile.classe.libelle %></p>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="infos">
+            <p class="label">Établissement:</p>
+            <p class="value"><%= compte.data.nomEtablissement %></p>
+        </div>
+        <div class="infos">
+            <p class="label">Email:</p>
+            <p class="value"><%= compte.data.email %></p>
+        </div>
+        <div class="infos">
+            <p class="label">Numéro de classe:</p>
+            <p class="value"><%= compte.data.profile.classe.id %></p>
+        </div>
+    </div>
+
+
+    <div class="lastNote">
+        <h2>Dernière note obtenue</h2>
+        <div class="note">
+            <p class="label">Matière:</p>
+            <p class="value"><%= lastNote.libelleMatiere %></p>
+        </div>
+        <div class="note">
+            <p class="label">Note:</p>
+            <p class="value"><%= lastNote.valeur %>/<%= lastNote.noteSur %></p>
+        </div>
+        <div class="note">
+            <p class="label">Moyenne de la classe:</p>
+            <p class="value"><%= lastNote.moyenneClasse %></p>
+        </div>
+        <div class="note">
+            <p class="label">Note minimale:</p>
+            <p class="value"><%= lastNote.minClasse %></p>
+        </div>
+        <div class="note">
+            <p class="label">Note maximale:</p>
+            <p class="value"><%= lastNote.maxClasse %></p>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

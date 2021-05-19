@@ -1,0 +1,45 @@
+@font-face {
+    font-family: nunito;
+    src: url('/font/nunito.ttf');
+}
+
+body{
+    margin: 0px;
+}
+
+/* Header ----------------------------- */
+
+header{
+    background-color: #333;
+    display: flex;
+    justify-content: space-between;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+header h1{
+    font-family: nunito;
+    font-style: italic;
+    font-size: 25px;
+    color: white;
+}
+
+header a{
+    display: block;
+    margin-top: auto;
+    margin-bottom: auto;
+    color: white;
+    background-color: #06c;
+    text-decoration: none;
+    padding: 7px;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-family: nunito;
+    border-radius: 24px;
+    transition: 0.3s;
+}
+header a:hover{
+    opacity: 0.9;
+    transition: 0.3s;
+}
+
