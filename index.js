@@ -51,7 +51,16 @@ async function getEmploiDuTemps(username, mdp){
   return emploiDuTemps;
 }
 
-
+async function getAllProf(username, mdp, bahut){
+  tab = [];
+  const notes = await getNotes(username, mdp);
+  notes.periodes[0].ensembleMatieres.disciplines.forEach(element =>
+    element.professeurs.forEach(el =>
+      tab.push(el.nom)
+    )
+  );
+  return tab;
+}
 
 // Roots
 app.get('/', (req, res) => {
@@ -63,7 +72,13 @@ app.get('/connexion', async (req, res) => {
     const notes = await getNotes(req.session.username, req.session.mdp);
     const compte = await ecole.connexion(req.session.username, req.session.mdp);
     var last = notes.notes.length - 1;
-    res.render('index', {username:req.session.username, mdp:req.session.mdp, lastNote:notes.notes[last], compte:compte});
+
+    let sql = `SELECT * FROM vote`;
+    let query = db.query(sql, (err, result) => {
+      if(err) throw err;
+      res.render('index', {username:req.session.username, mdp:req.session.mdp, lastNote:notes.notes[last], compte:compte, votes:result});
+    });
+    
   }
   else{
     res.render('connect', {error: ''});
@@ -72,9 +87,24 @@ app.get('/connexion', async (req, res) => {
 
 app.all('/index', async (req, res) => {
   if(req.session.username){
-    const notes = await getNotes(req.session.compte.data.identifiant, req.session.mdp);
+    const notes = await getNotes(req.session.username, req.session.mdp);
+    const compte = await ecole.connexion(req.session.username, req.session.mdp);
     var last = notes.notes.length - 1;
-    res.render('index', {username:req.session.compte.data.identifiant, mdp:req.session.mdp, lastNote:notes.notes[last]});
+
+    var arr = await getAllProf(req.session.username, req.session.mdp, req.session.bahut);
+    var final = [];
+
+    let all_stm = `SELECT * FROM vote WHERE bahut = '${req.session.bahut}'`;
+    let query_stm = db.query(all_stm, (err, result) => {
+      if(err) throw err;
+
+      for(var i=0;i<result.length;i++){
+        if(arr.indexOf(result[i].nom != -1)){
+          final.push(result[i]);
+        }
+      }
+      res.render('index', {username:req.session.username, mdp:req.session.mdp, lastNote:notes.notes[last], compte:compte, votes:final});
+    });
   }
   else{
     var username = req.body.nom;
@@ -85,7 +115,22 @@ app.all('/index', async (req, res) => {
       const compte = await ecole.connexion(username, mdp);
       const notes = await getNotes(username, mdp);
       var last = notes.notes.length - 1;
-      res.render('index', {compte:compte, lastNote:notes.notes[last]});
+      req.session.bahut = compte.data.nomEtablissement;
+
+      var arr = await getAllProf(req.session.username, req.session.mdp, req.session.bahut);
+      var final = [];
+
+      let all_stm = `SELECT * FROM vote WHERE bahut = '${req.session.bahut}'`;
+      let query_stm = db.query(all_stm, (err, result) => {
+        if(err) throw err;
+
+        for(var i=0;i<result.length;i++){
+          if(arr.indexOf(result[i].nom != -1)){
+            final.push(result[i]);
+          }
+        }
+        res.render('index', {username:req.session.username, mdp:req.session.mdp, lastNote:notes.notes[last], compte:compte, votes:final});
+      });
     }
     catch(err) {
       if(username == undefined || mdp == undefined){
@@ -127,19 +172,19 @@ app.all('/valider', (req, res) => {
   var value = req.body.vote;
   var prof = req.body.prof;
   
-  let deja = `SELECT * FROM vote WHERE prof = '${prof}'`;
+  let deja = `SELECT * FROM vote WHERE prof = '${prof}' AND bahut = '${req.session.bahut}'`;
   let query = db.query(deja, (err, result) => {
     console.log(result);
     if(err) throw err;
 
-    let data_insert = {prof: prof, note: value};
+    let data_insert = {prof: prof, note: value, bahut:req.session.bahut};
     let insert = 'INSERT INTO all_vote SET ?';
     let query = db.query(insert, data_insert, (err, result) => {
       if(err) throw err;
     });
 
     if(result == ''){
-      let data_insert = {prof: prof, note: value};
+      let data_insert = {prof: prof, note: value, bahut:req.session.bahut};
       let insert = 'INSERT INTO vote SET ?';
       let query = db.query(insert, data_insert, (err, result) => {
         if(err) throw err;
@@ -148,7 +193,7 @@ app.all('/valider', (req, res) => {
     else{
       var somme = 0;
       var nbre = 0;
-      let select_all = `SELECT * FROM all_vote WHERE prof = '${prof}'`;
+      let select_all = `SELECT * FROM all_vote WHERE prof = '${prof}' AND bahut = '${req.session.bahut}'`;
       let query_select = db.query(select_all, (err, result) => {
         if(err) throw err;
         for(var i=0; i<result.length; i++){
@@ -159,7 +204,7 @@ app.all('/valider', (req, res) => {
         arrondi = nombre*100;
         arrondi = Math.round(arrondi);
         arrondi = arrondi/100;
-        let update = `UPDATE vote SET note = '${arrondi}' WHERE prof = '${prof}'`;
+        let update = `UPDATE vote SET note = '${arrondi}' WHERE prof = '${prof}' AND bahut = '${req.session.bahut}'`;
         let query_update = db.query(update, (err, result) => {
           if(err) throw err;
         });
@@ -168,6 +213,8 @@ app.all('/valider', (req, res) => {
   });
   res.redirect('/vote');
 });
+
+
 
 // Listening
 app.listen(port, () => {

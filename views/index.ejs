@@ -71,5 +71,21 @@
 </div>
 
 
+<div class="vote-div">
+    <h1 class="result">Les résultats provisoires</h1>
+
+    <div class="all-value">
+        <% for(var i=0; i<votes.length; i++) {%>
+            <div class="ligne">
+                <p class="prof"><%= votes[i].prof %></p>
+                <div class="value-div">
+                    <progress max="5" value="<%= votes[i].note %>"></progress>
+                    <p class="note-prof"><%= votes[i].note %>/5</p>
+                </div>
+            </div>
+        <% } %>
+    </div>
+</div>
+
 </body>
 </html>

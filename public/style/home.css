@@ -75,7 +75,19 @@ header .deco:hover{
 .all1{
     display: flex;
     justify-content: center;
+    width: 880px;
+    margin: auto;
     margin-top: 50px;
+}
+
+.vote-div{
+    width: 865px;
+    display: block;
+    margin: auto;
+    padding: 10px;
+    margin-top: 50px;
+    background-color: #333;
+    margin-bottom: 50px;
 }
 
 /* Rest -------------------------------------- */
@@ -174,4 +186,54 @@ header .deco:hover{
 
 .value{
     margin-left: 10px;
+    color: #333;
+}
+
+/* Résultats ------------------------------- */
+
+.all-value{
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.result{
+    font-family: nunito;
+    color: white;
+    margin-left: 40px;
+    text-decoration: underline;
+}
+
+.ligne{
+    display: flex;
+    justify-content: space-between;
+    padding: 7px;
+    width: 400px;
+    margin-left: 40px;
+}
+
+progress{
+    display: block;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+.prof{
+    display: block;
+    margin-top: auto;
+    margin-bottom: auto;
+    font-family: nunito;
+    color: white;
+}
+.note-prof{
+    display: block;
+    margin-top: auto;
+    margin-bottom: auto;
+    font-family: nunito;
+    color: white;
+    margin-left: 20px;
+}
+
+.value-div{
+    display: flex;
+    justify-content: flex-start;
+    width: 220px;
 }
