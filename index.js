@@ -131,6 +131,12 @@ app.all('/valider', (req, res) => {
     console.log(result);
     if(err) throw err;
 
+    let data_insert = {prof: prof, note: value};
+    let insert = 'INSERT INTO all_vote SET ?';
+    let query = db.query(insert, data_insert, (err, result) => {
+      if(err) throw err;
+    });
+
     if(result == ''){
       let data_insert = {prof: prof, note: value};
       let insert = 'INSERT INTO vote SET ?';
@@ -139,22 +145,27 @@ app.all('/valider', (req, res) => {
       });
     }
     else{
-
-      let get_value = `SELECT * FROM all_vote WHERE prof = '${prof}'`;
-      let get_query = db.query(get_value, (err, result) => {
-        console.log(result[0].note);
-      });
-
-
-
-      let update = `UPDATE vote SET note = '${value}' WHERE prof = '${prof}'`;
-      let query = db.query(update, (err, result) => {
+      var somme = 0;
+      var nbre = 0;
+      let select_all = `SELECT * FROM all_vote WHERE prof = '${prof}'`;
+      let query_select = db.query(select_all, (err, result) => {
         if(err) throw err;
+        for(var i=0; i<result.length; i++){
+          somme += result[i].note;
+          nbre++;
+        }
+        var nombre = somme/nbre;
+        arrondi = nombre*100;
+        arrondi = Math.round(arrondi);
+        arrondi = arrondi/100;
+        console.log(arrondi);
+        let update = `UPDATE vote SET note = '${arrondi}' WHERE prof = '${prof}'`;
+        let query_update = db.query(update, (err, result) => {
+          if(err) throw err;
+        });
       });
     }
-
   });
-
   res.redirect('/vote');
 });
 
