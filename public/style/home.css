@@ -19,7 +19,6 @@ header{
 
 header h1{
     font-family: nunito;
-    font-style: italic;
     font-size: 25px;
     color: white;
 }
@@ -191,6 +190,50 @@ header .deco:hover{
 
 /* Résultats ------------------------------- */
 
+
+
+.right-res{
+    width: 170px;
+    margin-left: 40px;
+    display: flex;
+    justify-content: space-between;
+    margin-top:auto;
+    margin-bottom: auto;
+}
+
+.rules{
+    font-family: nunito;
+    color: white;
+    background-color: grey;
+    padding: 7px;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.rules:hover{
+    transition: 0.3s;
+    opacity: 0.9;
+}
+
+
+.link-vote{
+    font-family: nunito;
+    color: white;
+    background-color: orange;
+    padding: 7px;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: 0.3s;
+    display: blocks;
+    margin-top: auto;
+    margin-bottom: auto;
+    text-decoration: none;
+}
+.link-vote:hover{
+    transition: 0.3s;
+    opacity: 0.9;
+}
+
 .all-value{
     margin-top: 30px;
     margin-bottom: 30px;
@@ -228,7 +271,7 @@ progress{
     margin-top: auto;
     margin-bottom: auto;
     font-family: nunito;
-    color: white;
+    color: silver;
     margin-left: 20px;
 }
 

@@ -8,8 +8,8 @@
 <body>
 
     <header>
-        <h1>Espace vote</h1>
-        <a href="/deconnexion">Se déconnecter</a>
+        <h1>Mes notes attribuées</h1>
+        <a href="/index">Accueil</a>
     </header>
 
 <div class="all">
@@ -20,7 +20,7 @@
                     <div class="ligne">
                         <p class="name"><%= liste[i].nom_prof %></p>
                         <form method="post" action="/valider">
-                            <input type="hidden" value="<%= liste[i] %>" name="prof" />
+                            <input type="hidden" value="<%= liste[i].nom_prof %>" name="prof" />
 
                             <input type="radio" name="vote" value="1" id="1" />
                             <label for="1">1</label>
@@ -40,7 +40,13 @@
             }
             else{
                 %>
-                    <p class="nom_prof"><%= liste[i].nom_prof %></p>
+                    <div class="ligne">
+                        <p class="name"><%= liste[i].nom_prof %></p>
+                        <div class="progress-bar">
+                            <progress max="5" value="<%= liste[i].note %>"></progress>
+                            <p class="note_attribuee"><%= liste[i].note %>/5</p>
+                        </div>
+                    </div>
                 <%
             }
         }

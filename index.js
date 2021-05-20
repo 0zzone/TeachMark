@@ -179,7 +179,8 @@ app.get('/vote', async (req, res) => {
       tab.push(
         {
           nom_prof: notes.periodes[0].ensembleMatieres.disciplines[i].professeurs[k].nom,
-          valide: true
+          valide: true,
+          note: 0
         }
       );
     }
@@ -194,6 +195,7 @@ app.get('/vote', async (req, res) => {
       for(var x=0; x<tab.length; x++){
         if(tab[x].nom_prof == result[m].prof){
           tab[x].valide = false;
+          tab[x].note = result[m].note;
         }
       }
     }
