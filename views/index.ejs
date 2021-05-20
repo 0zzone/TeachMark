@@ -5,6 +5,13 @@
         <title>Page d'accueil</title>
         <link rel="stylesheet" href="style/home.css" />
     </head>
+
+<script>
+    function rules(){
+        alert('Attribuez une note enre 1 et 5 à vos professeurs.\nVous ne pouvez noter qu\'une seule fois pour chacun des professeurs uniquement pendant la durée de vote.\nÀ la fin de celle-ci, vous pourrez voter à nouveau.');
+    }
+</script>
+
 <body>
     <header>
         <h1>Mark your teachers</h1>
@@ -74,7 +81,7 @@
 <div class="vote-div">
     <h1 class="result">Les résultats provisoires</h1>
     <div class="right-res">
-        <p class="rules">Les règles</p>
+        <p class="rules" onclick="rules()">Les règles</p>
         <a href="/vote" class="link-vote">Je note !</a>
     </div>
 

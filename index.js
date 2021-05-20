@@ -62,6 +62,30 @@ async function getAllProf(username, mdp, bahut){
   return tab;
 }
 
+var compteur = 0;
+setInterval(function(){
+  var date = new Date();
+  var day = date.getDay();
+  var heure = date.getHours();
+
+  if(day == 7 && heure == 23){
+    if(compteur > 3){
+      compteur = 0;
+      let delete_all = `DELETE FROM vote`;
+      let query_delete_all = db.query(delete_all, (err, result) => {
+        if(err) throw err;
+      });
+    }
+    else{
+      compteur++;
+    }
+  }
+  else{
+    compteur++;
+  }
+}, 40*60000);
+
+
 // Roots
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
@@ -185,7 +209,9 @@ app.get('/vote', async (req, res) => {
       );
     }
   }
-   
+
+
+
   var arr = [];
   let sql = `SELECT * FROM all_vote WHERE id_eleve = '${req.session.identifiant}'`;
   let query = db.query(sql, (err, result) => {
@@ -250,7 +276,6 @@ app.all('/valider', (req, res) => {
   });
   res.redirect('/vote');
 });
-
 
 
 // Listening
