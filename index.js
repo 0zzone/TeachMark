@@ -68,13 +68,19 @@ setInterval(function(){
   var day = date.getDay();
   var heure = date.getHours();
 
-  if(day == 7 && heure == 23){
+  if(day == 6 && heure == 14){
     if(compteur > 3){
       compteur = 0;
-      let delete_all = `DELETE FROM vote`;
+      let delete_all = `DELETE FROM all_vote`;
       let query_delete_all = db.query(delete_all, (err, result) => {
         if(err) throw err;
       });
+
+      let delete_vote = `DELETE FROM vote`;
+      let query_delete_vote = db.query(delete_vote, (err, result) => {
+        if(err) throw err;
+      });
+
     }
     else{
       compteur++;
